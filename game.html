@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Survival</title>
+	<link rel="stylesheet" href="game.css" medai="screen">
+	<style>
+
+	</style>
+	<script src="raphael.min.js"></script>
+	<script src="blockly/blockly_compressed.js"></script>
+	<script src="blockly/blocks_compressed.js"></script>
+	<script src="blockly/ko.js"></script>
+	<script src="game.js"></script>
+	<script src="custom_blocks.js"></script>
+	<style media="screen">
+		#holder {
+			height:400px;
+			width:400px;
+			border:1px solid gray;
+			float:left;
+		}
+		#blocklydiv {
+			height: 800px;
+			margin-left: 407px;     
+			border:1px solid gray;
+		}
+		.clear { clear:both }
+	</style>
+</head>
+
+
+<body>
+	<div id="holder"></div>
+	<div id="blocklydiv"></div>
+	<div class="clear"></div>
+
+	<xml id="toolbox" style="display:none">
+		<block type="controls_if"></block>
+		<block type="logic_compare"></block>
+		<block type="controls_repeat_ext"></block>
+		<block type="math_number"></block>
+		<block type="math_arithmetic"></block>
+		<block type="text"></block>
+		<block type="text_print"></block>
+	</xml>
+
+	<script>
+		var workspace = Blockly.inject('blocklydiv',
+			{ toolbox: document.getElementById('toolbox') });
+
+		game_main("holder", 
+			[[3,3], [4, 5], [6, 7]],
+			[[2,4], [8, 4], [10, 9], [3, 10]],
+			[[8, 2], [5, 8]]);
+	</script>
+</body>
+
+</html>
