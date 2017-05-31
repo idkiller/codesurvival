@@ -55,6 +55,7 @@
 	<div id="code_editor">
 		<div id="toolbar">
 			<button id="run_button">Run the game</button>
+			<button id="stop_button">Stop the game</button>
 		</div>
 		<div id="blocklydiv"></div>
 	</div>
@@ -73,9 +74,12 @@
 			{ toolbox: document.getElementById('toolbox') });
 		
 		document.getElementById("run_button").addEventListener("click", function(e){
-			console.log("foo");
 			var code = Blockly.JavaScript.workspaceToCode(workspace);
 			game_start(code);
+		}, false);
+
+		document.getElementById("stop_button").addEventListener("click", function(e){
+			game_stop();
 		}, false);
 
 		game_main("holder", 
