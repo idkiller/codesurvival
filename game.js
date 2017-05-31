@@ -28,6 +28,14 @@ _loop = null;
 
 _game_grid = [];
 
+_score_board = null;
+
+function add_score(score) {
+    if (!_score_board) _score_board = document.getElementById("game_score");
+    Score += score;
+    _score_board.value = "score : " + Score;
+}
+
 function log(str) {
     if (!_survival_log_element)
         _survival_log_element = document.getElementById("survival_log");
@@ -108,7 +116,7 @@ function unit_transform(unit, dx, dy) {
     return tstr;
 }
 
-function unit_move(unit, rx, ry) {
+function unit_move(unit, rx, ry, cb) {
     var bb = unit.u.getBBox();
     var cx = unit.x + rx,
         cy = unit.y + ry;
@@ -118,7 +126,7 @@ function unit_move(unit, rx, ry) {
     var ty = _Y(cy - 1);
     elem.animate({
         transform: unit_transform(unit, tx, ty)
-    }, 200, "linear", null);
+    }, 200, "linear", cb);
     unit.x = cx;
     unit.y = cy;
 }
@@ -138,20 +146,6 @@ function nextpos(dir) {
     return [0, 0];
 }
 
-function unit_collision(a, x, y) {
-    if (!a.on_collision) return true;
-    var tx = a.x + x, ty = a.y + y;
-    if (tx < 1 || tx > 10 || ty < 1 || ty > 10) {
-        return a.on_collision("wall", null);
-    }
-    var b = _game_grid[ty][tx];
-    if (b) {
-        console.log(b);
-        return a.on_collision(b.type, b);
-    }
-    return true;
-}
-
 function Unit(t, element, px, py, collision_cb) {
     var __unit = {
         type: t,
@@ -167,83 +161,63 @@ function Unit(t, element, px, py, collision_cb) {
             _game_grid[this.y][this.x] = this;
             this.initialized = true;
         },
-        forward: function () {
+        forward: function (cb) {
             var dir = unit_dir(this);
             var np = nextpos(dir);
             var c = true;
+            var self = this;
             if (this.initialized) {
-                c = unit_collision(this, np[0], np[1]);
+                var d = this.detect(function (type, block) {
+                    if (!self.on_collision || self.on_collision(type, block)) {
+                        _game_grid[self.y][self.x] = null;
+                        unit_move(self, np[0], np[1], cb);
+                        _game_grid[self.y][self.x] = self;
+                    }
+                });
             }
-
-            if (c) {
-                _game_grid[this.y][this.x] = null;
+            else {
                 unit_move(this, np[0], np[1]);
-                _game_grid[this.y][this.x] = this;
             }
 
             this.blocker = null;
         },
-        turn_right: function () {
+        turn_right: function (cb) {
             this.rotation += 90;
-            unit_move(this, 0, 0);
+            unit_move(this, 0, 0, cb);
             this.blocker = null;
         },
-        turn_left: function () {
+        turn_left: function (cb) {
             this.rotation -= 90;
-            unit_move(this, 0, 0);
+            unit_move(this, 0, 0, cb);
             this.blocker = null;
         },
-        detect: function () {
-            var somthing = this.blocker;
-            if (somthing != null) return somthing;
+        detect: function (cb) {
+            var ret = null;
+            var dir = unit_dir(this);
+            var np = nextpos(dir);
+            var tx = this.x + np[0], ty = this.y + np[1];
+            var b = null;
+            if (tx < 1 || tx > 10 || ty < 1 || ty > 10) {
+                ret = "wall";
+            }
+            else {
+                b = _game_grid[ty][tx];
+                if (b) ret = b.type;
+            }
+            if (cb) cb(ret, b);
 
-            var np = nextpos(unit_dir(this));
-            var tx = np[0] + this.x;
-            var ty = np[1] + this.y;
-
-            Monsters.every(function (unit) {
-                if (unit.x == tx && unit.y == ty) {
-                    somthing = "monster";
-                    return false;
-                }
-                return true;
-            });
-            if (somthing != null) return somthing;
-
-            Traps.every(function (unit) {
-                if (unit.x == tx && unit.y == ty) {
-                    somthing = "trap";
-                    return false;
-                }
-                return true;
-            });
-            if (somthing != null) return somthing;
-
-            if (tx > 10 || tx < 1 || ty < 1 || ty > 10)
-                somthing = "wall";
-            if (somthing != null) return somthing;
-
-            Treasures.every(function (unit) {
-                if (unit.x == tx && unit.y == ty) {
-                    somthing = "treasure";
-                    return false;
-                }
-                return true;
-            });
-
-            this.blocker = somthing;
-
-            return somthing;
+            return ret;
         },
-        dead: function () {
+        dead: function (cb) {
             this.scale = 1.2;
             unit_move(this, 0, 0);
             this.scale = 0.1;
-            unit_move(this, 0, 0);
-
-            this.u.remove();
-            _game_grid[this.y][this.x] = null;
-            this.is_dead = true;
+            var self = this;
+            unit_move(this, 0, 0, function () {
+                self.u.remove();
+                _game_grid[self.y][self.x] = null;
+                self.is_dead = true;
+            });
         }
     };
 
@@ -264,7 +238,7 @@ function game_init() {
     if (!_grid) _grid = create_grid();
 
     _game_grid = [];
-    for (i = 0; i < 11; i++) _game_grid.push(new Array(11));
+    for (i = 0; i < 11; i++) _game_grid.push(new Array(11).fill(null));
 
     var units = [];
     var monster_count = random_between(3, 6);
@@ -305,9 +279,9 @@ function game_init() {
         var x = xy[0], y = xy[1];
         var t = create_traps();
         t.translate(_X(x), _Y(y));
-        t.show();
-        var trap = Unit('trap', t, x, y);
-        Traps.push(trap);
+        //t.show();
+        var unit = Unit('trap', t, x, y);
+        Traps.push(unit);
     });
 
     monsters.forEach(function (xy, index, arr) {
@@ -333,14 +307,16 @@ function game_init() {
                 this.turn_right();
                 return false;
             }
-            else if (type == "trap" || type == "monster" || type == "treasure") {
+            else if (type == "monster" || type == "treasure") {
                 if (random_coin()) unit.turn_left();
                 else unit.turn_right();
                 return false;
             }
             else if (type == "hero") {
-                if (b.life-- < 1) {
+                b.life--;
+                if (b.life < 1) {
                     b.dead();
+                    game_stop();
                 }
                 return false;
             }
@@ -363,6 +339,31 @@ function game_init() {
     hero.translate(_X(1), _Y(1));
     hero.show();
     Hero = Unit('hero', hero, 1, 1);
+    Hero.on_collision = function (type, block) {
+        var act = true;
+        if (type) {
+            act = false;
+        }
+
+        if (type == "trap") {
+            block.u.show();
+            Hero.dead();
+            game_stop();
+        }
+        else if (type == "monster") {
+            Hero.life--;
+            if (Hero.life < 1) {
+                Hero.dead();
+                game_stop();
+            }
+        }
+        else if (type == "treasure") {
+            add_score(10);
+            block.dead();
+        }
+
+        return act;
+    };
 }
 
 function game_main(canvas) {
@@ -399,22 +400,28 @@ function game_start(code) {
     Treasures = [];
     if (Hero != null) Hero.u.remove();
     Hero = null;
+    Score = 0;
 
     game_init();
 
     var runner = function () {
         game_run();
         eval(code);
+        log(__debug());
+
         if (Hero.is_dead) {
             _game_running = false;
+        }
+        else {
+            add_score(1);
         }
         if (_game_running)
             _loop = setTimeout(runner, 300);
 
-        log(__debug());
     };
     _game_running = true;
     runner();
+    log(__debug());
 }
 
 function game_stop() {
