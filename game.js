@@ -30,6 +30,8 @@ _game_grid = [];
 
 _score_board = null;
 
+StepInATurn = 0;
+
 function add_score(score) {
     if (!_score_board) _score_board = document.getElementById("game_score");
     Score += score;
@@ -405,8 +407,21 @@ function game_start(code) {
     game_init();
 
     var runner = function () {
+        var i;
         game_run();
-        eval(code);
+        try {
+            eval(code);
+        }
+        catch (e) {
+            game_stop();
+            alert(e.toString());
+        }
+
+        for (i=0; i<StepInATurn; i++)
+        {
+            Hero.forward();
+        }
+
         log(__debug());
 
         if (Hero.is_dead) {

@@ -60,7 +60,7 @@ Blockly.defineBlocksWithJsonArray([
         "colour": 120,
         "output": "String",
         "tooltip": "Treasure"
-    },
+    }
 ]);
 
 
@@ -95,3 +95,54 @@ Blockly.JavaScript['blocker_trap'] = function (block) {
 Blockly.JavaScript['blocker_treasure'] = function (block) {
     return ["\'treasure\'", Blockly.JavaScript.ORDER_NONE];
 }
+
+var GameWorkspace = null;
+
+var unique_step_number = false;
+
+var step_number_block = {
+    "message0": "Set  %1 Step in a turn",
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "count",
+            "check": "Number"
+        }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 330
+};
+
+Blockly.Blocks['step_number'] = {
+    init: function () {
+        this.jsonInit(step_number_block);
+        var self = this;
+        this.setTooltip(function () {
+            return "Set " + self.getFieldValue('count') + " in a thrun"
+        });
+    }
+};
+
+Blockly.JavaScript['step_number'] = function (block) {
+    var value_count = Blockly.JavaScript.valueToCode(block, 'count', Blockly.JavaScript.ORDER_ATOMIC);
+
+    if (value_count == "" || value_count == null) {
+        block.setWarningText("step can not be empty.");
+        return "// step can not be empty\n";
+    }
+
+    var code = 'StepInATurn = ' + value_count + ';\n';
+
+    var blocks = GameWorkspace.getAllBlocks();
+    var b = null, i = 0;
+    for (; i < blocks.length; i++) {
+        b = blocks[i];
+        if (b.type == "step_number") {
+            block.setWarningText("Count is set twice.");
+        }
+    }
+
+    return code;
+};

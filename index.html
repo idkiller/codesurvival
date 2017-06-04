@@ -74,7 +74,7 @@
 		<block type="controls_if"></block>
 		<block type="logic_compare"></block>
 		<block type="math_arithmetic"></block>
-		<block type="move_forward"></block>
+		<block type="step_number"></block>
 		<block type="turn_left"></block>
 		<block type="turn_right"></block>
 		<block type="detect"></block>
@@ -82,25 +82,28 @@
 		<block type="blocker_monster"></block>
 		<block type="blocker_trap"></block>
 		<block type="blocker_treasure"></block>
+		<block type="math_number">
+			<field name="NUM">0</field>
+		</block>
 	</xml>
 
 	<script>
-		var workspace = Blockly.inject('blocklydiv',
+		GameWorkspace = Blockly.inject('blocklydiv',
 			{ toolbox: document.getElementById('toolbox') });
 
-		workspace.addChangeListener(function () {
-			var xml = Blockly.Xml.workspaceToDom(workspace);
+		GameWorkspace.addChangeListener(function () {
+			var xml = Blockly.Xml.workspaceToDom(GameWorkspace);
 			var xml_text = Blockly.Xml.domToText(xml);
 			localStorage['blockly_xml'] = xml_text;
 		});
 
 		if (localStorage['blockly_xml']) {
 			var xml = Blockly.Xml.textToDom(localStorage['blockly_xml']);
-			Blockly.Xml.domToWorkspace(xml, workspace);
+			Blockly.Xml.domToWorkspace(xml, GameWorkspace);
 		}
 
 		document.getElementById("run_button").addEventListener("click", function (e) {
-			var code = Blockly.JavaScript.workspaceToCode(workspace);
+			var code = Blockly.JavaScript.workspaceToCode(GameWorkspace);
 			game_start(code);
 		}, false);
 
