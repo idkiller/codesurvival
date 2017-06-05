@@ -114,8 +114,8 @@ Game.drawGrid = function () {
     return group;
 }
 
-Game.X = function (x) { return this.Cell.width * (x - 1); }
-Game.Y = function (y) { return this.Cell.height * (y - 1); }
+Game.X = function (x) { return Game.Cell.width * (x - 1); }
+Game.Y = function (y) { return Game.Cell.height * (y - 1); }
 
 Game.CreateUnit = function (id, t, x, y) {
     if (!this._defs) this._defs = {};
@@ -131,8 +131,8 @@ Game.CreateUnit = function (id, t, x, y) {
         dir: DirSouth,
 
         Move: function (dx, dy) {
-            this.dest.x = this.obj.position.x + Game.X(dx);
-            this.dest.y = this.obj.position.y + Game.Y(dy);
+            this.dest.x += Game.X(dx+1);
+            this.dest.y += Game.Y(dy+1);
         },
         Forward: function () {
             switch(this.dir) {
