@@ -54,7 +54,7 @@
 		#img_monster,
 		#img_trap,
 		#img_treasure {
-			display:none;
+			display: none;
 		}
 	</style>
 </head>
@@ -116,19 +116,21 @@
 
 		document.getElementById("run_button").addEventListener("click", function (e) {
 			var code = Blockly.JavaScript.workspaceToCode(GameWorkspace);
-			game_start(code);
+			paper.Game.Start();
 		}, false);
 
 		document.getElementById("stop_button").addEventListener("click", function (e) {
-			game_stop();
+			paper.Game.Stop();
 		}, false);
 
 		var seed_form = document.getElementById("random_seed");
-		if (localStorage['random_seed'])
-		{
-			seed_form.value = localStorage['random_seed'];
-			paper.Game.SetRandomSeed(parseInt(seed_form.value));
-		}
+		window.addEventListener('load', function () {
+			if (localStorage['random_seed']) {
+				seed_form.value = localStorage['random_seed'];
+				paper.Game.SetRandomSeed(parseInt(seed_form.value));
+			}
+		}, false);
+
 		seed_form.addEventListener("change", function (e) {
 			paper.Game.SetRandomSeed(parseInt(seed_form.value));
 			localStorage['random_seed'] = seed_form.value;
