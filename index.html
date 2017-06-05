@@ -8,13 +8,13 @@
 	<style>
 
 	</style>
-	<script src="raphael.min.js"></script>
+	<script src="paper-full.min.js"></script>
 	<script src="blockly/blockly_compressed.js"></script>
 	<script src="blockly/blocks_compressed.js"></script>
 	<script src="blockly/javascript_compressed.js"></script>
 	<script src="blockly/ko.js"></script>
-	<script src="game.js"></script>
 	<script src="custom_blocks.js"></script>
+	<script type="text/paperscript" src="game2.js" canvas="holder"></script>
 	<style media="screen">
 		#playground {
 			height: 400px;
@@ -25,7 +25,6 @@
 		#holder {
 			height: 400px;
 			width: 400px;
-			border: 1px solid gray;
 		}
 
 		#code_editor {
@@ -49,13 +48,26 @@
 			width: 400px;
 			margin: 0;
 		}
+
+
+		#img_hero,
+		#img_monster,
+		#img_trap,
+		#img_treasure {
+			display:none;
+		}
 	</style>
 </head>
 
 
 <body>
+	<img src="img/hero.png" id="img_hero">
+	<img src="img/monster.png" id="img_monster">
+	<img src="img/trap.png" id="img_trap">
+	<img src="img/treasure.png" id="img_treasure">
+
 	<div id="playground">
-		<div id="holder"></div>
+		<canvas id="holder"></canvas>
 		<textarea id="survival_log"></textarea>
 	</div>
 	<div id="code_editor">
@@ -115,21 +127,12 @@
 		if (localStorage['random_seed'])
 		{
 			seed_form.value = localStorage['random_seed'];
-			set_random_seed(parseInt(seed_form.value));
+			paper.Game.SetRandomSeed(parseInt(seed_form.value));
 		}
 		seed_form.addEventListener("change", function (e) {
-			set_random_seed(parseInt(seed_form.value));
+			paper.Game.SetRandomSeed(parseInt(seed_form.value));
 			localStorage['random_seed'] = seed_form.value;
 		}, false);
-
-		game_main("holder");
-
-		/*
-		game_main("holder",
-			[[3, 3], [4, 5], [6, 7]],
-			[[2, 4], [8, 4], [10, 9], [3, 10]],
-			[[8, 2], [5, 8]]);
-		*/
 	</script>
 </body>
 
