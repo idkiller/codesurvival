@@ -113,7 +113,10 @@
 
 		var seed_form = document.getElementById("random_seed");
 		if (localStorage['random_seed'])
+		{
 			seed_form.value = localStorage['random_seed'];
+			set_random_seed(parseInt(seed_form.value));
+		}
 		seed_form.addEventListener("change", function (e) {
 			set_random_seed(parseInt(seed_form.value));
 			localStorage['random_seed'] = seed_form.value;
