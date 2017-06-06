@@ -64,6 +64,15 @@
 			width: 40px;
 			height: 40px;
 		}
+
+		#xmlcode {
+			width: 100%;
+			height: 5em;
+		}
+
+		.saveorload {
+			margin-top: 1em;
+		}
 	</style>
 </head>
 
@@ -88,6 +97,9 @@
 			<div class="description">
 				<img src="img/treasure.png" id="img_treasure"> : 보물, 만나면 점수가 많이 오릅니다.
 			</div>
+
+			<div class="saveorload"><button id="codecapture">capture</button> or <button id="codeload">load</button> this code</div>
+			<textarea id="xmlcode"></textarea>
 		</div>
 	</div>
 	<div id="code_editor">
@@ -199,11 +211,26 @@
 		GameWorkspace = Blockly.inject('blocklydiv',
 			{ toolbox: document.getElementById('toolbox') });
 
+		var xmlcode = document.getElementById('xmlcode');
+
 		GameWorkspace.addChangeListener(function () {
 			var xml = Blockly.Xml.workspaceToDom(GameWorkspace);
 			var xml_text = Blockly.Xml.domToText(xml);
 			localStorage['blockly_xml'] = xml_text;
 		});
+
+		document.getElementById('codecapture').addEventListener('click', function () {
+			var xml = Blockly.Xml.workspaceToDom(GameWorkspace);
+			var xml_text = Blockly.Xml.domToText(xml);
+			xmlcode.value = btoa(xml_text);
+		}, false);
+
+		document.getElementById('codeload').addEventListener('click', function () {
+			var code = atob(xmlcode.value);
+			var xml = Blockly.Xml.textToDom(code);
+			Blockly.Xml.domToWorkspace(xml, GameWorkspace);
+		}, false);
+
 
 		if (localStorage['blockly_xml']) {
 			var xml = Blockly.Xml.textToDom(localStorage['blockly_xml']);
