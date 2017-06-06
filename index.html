@@ -42,11 +42,18 @@
 			clear: both
 		}
 
-		#survival_log {
+		#game_board {
 			float: left;
 			height: 400px;
 			width: 400px;
 			margin: 0;
+		}
+
+		.numbers {
+			text-align: center;
+			font-size: 30pt;
+			color: red;
+			font-weight: bold;
 		}
 
 
@@ -54,29 +61,40 @@
 		#img_monster,
 		#img_trap,
 		#img_treasure {
-			display: none;
+			width: 40px;
+			height: 40px;
 		}
 	</style>
 </head>
 
 
 <body>
-	<img src="img/hero.png" id="img_hero">
-	<img src="img/monster.png" id="img_monster">
-	<img src="img/trap.png" id="img_trap">
-	<img src="img/treasure.png" id="img_treasure">
-
 	<div id="playground">
 		<canvas id="holder"></canvas>
-		<textarea id="survival_log"></textarea>
+		<div id="game_board">
+			<div class="numbers">
+				<span id="game_score">0</span> /
+				<span id="game_turn">0</span>
+			</div>
+			<div class="description">
+				<img src="img/hero.png" id="img_hero"> : 히어로, 함정이나 몬스터에게 닿으면 죽습니다.
+			</div>
+			<div class="description">
+				<img src="img/monster.png" id="img_monster"> : 몬스터, 함정이나 보물, 벽을 만나면 방향을 바꿉니다.
+			</div>
+			<div class="description">
+				<img src="img/trap.png" id="img_trap"> : 함정, 히어로가 닿으면 죽습니다.
+			</div>
+			<div class="description">
+				<img src="img/treasure.png" id="img_treasure"> : 보물, 만나면 점수가 많이 오릅니다.
+			</div>
+		</div>
 	</div>
 	<div id="code_editor">
 		<div id="toolbar">
-			<input id="game_score" type="text" readonly>
 			<button id="run_button">Run the game</button>
 			<button id="stop_button">Stop the game</button>
 			<label for="random_seed">Stage Number</label><input id="random_seed" type="text" pattern="\d*" value="1">
-
 		</div>
 		<div id="blocklydiv"></div>
 	</div>
@@ -86,7 +104,7 @@
 		<block type="controls_if"></block>
 		<block type="logic_compare"></block>
 		<block type="math_arithmetic"></block>
-		<block type="step_number"></block>
+		<block type="move_forward"></block>
 		<block type="turn_left"></block>
 		<block type="turn_right"></block>
 		<block type="detect"></block>
@@ -94,9 +112,6 @@
 		<block type="blocker_monster"></block>
 		<block type="blocker_trap"></block>
 		<block type="blocker_treasure"></block>
-		<block type="math_number">
-			<field name="NUM">0</field>
-		</block>
 	</xml>
 
 	<script>
@@ -116,6 +131,7 @@
 
 		document.getElementById("run_button").addEventListener("click", function (e) {
 			var code = Blockly.JavaScript.workspaceToCode(GameWorkspace);
+			paper.Game.SetHeroScript(code);
 			paper.Game.Start();
 		}, false);
 
@@ -124,16 +140,25 @@
 		}, false);
 
 		var seed_form = document.getElementById("random_seed");
-		window.addEventListener('load', function () {
-			if (localStorage['random_seed']) {
-				seed_form.value = localStorage['random_seed'];
-				paper.Game.SetRandomSeed(parseInt(seed_form.value));
-			}
-		}, false);
-
 		seed_form.addEventListener("change", function (e) {
 			paper.Game.SetRandomSeed(parseInt(seed_form.value));
 			localStorage['random_seed'] = seed_form.value;
+		}, false);
+
+		if (localStorage['random_seed']) {
+			seed_form.value = localStorage['random_seed'];
+
+		}
+
+		window.addEventListener('load', function () {
+			paper.Game.SetRandomSeed(parseInt(seed_form.value));
+			paper.Game.SetScoreCallback(function (score) {
+				document.getElementById('game_score').innerText = score;
+			});
+			paper.Game.SetTurnCallback(function (turn) {
+				document.getElementById('game_turn').innerText = turn;
+			});
+			paper.Game.OnPage();
 		}, false);
 	</script>
 </body>

@@ -65,19 +65,19 @@ Blockly.defineBlocksWithJsonArray([
 
 
 Blockly.JavaScript['move_forward'] = function (block) {
-    return 'Hero.forward();\n';
+    return 'Game.HeroForward();\n';
 };
 
 Blockly.JavaScript['turn_right'] = function (block) {
-    return 'Hero.turn_right();\n';
+    return 'Game.Hero.TurnRight();\n';
 };
 
 Blockly.JavaScript['turn_left'] = function (block) {
-    return 'Hero.turn_left();\n';
+    return 'Game.Hero.TurnLeft();\n';
 }
 
 Blockly.JavaScript['detect'] = function (block) {
-    return ['Hero.detect()', Blockly.JavaScript.ORDER_NONE];
+    return ['Game.Hero.See()', Blockly.JavaScript.ORDER_NONE];
 }
 
 Blockly.JavaScript['blocker_wall'] = function (block) {
