@@ -214,3 +214,29 @@ Blockly.JavaScript['get_from_global'] = function (block) {
     // TODO: Change ORDER_NONE to the correct strength.
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
+
+Blockly.Blocks['fixed_random_number'] = {
+  init: function() {
+    this.appendValueInput("min")
+        .setCheck("Number")
+        .appendField("random number (");
+    this.appendDummyInput();
+    this.appendValueInput("max")
+        .setCheck("Number")
+        .appendField("<= n <=");
+    this.appendDummyInput()
+        .appendField(")");
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('Return a random integer between the two specified limits, inclusive.');
+  }
+};
+
+Blockly.JavaScript['fixed_random_number'] = function(block) {
+  var value_min = Blockly.JavaScript.valueToCode(block, 'min', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_max = Blockly.JavaScript.valueToCode(block, 'max', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'Game.Random2('+value_min+', '+value_max+')';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};

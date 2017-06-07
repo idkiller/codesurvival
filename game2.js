@@ -47,7 +47,7 @@ Game.Random = function () {
 }
 
 Game.Random2 = function (a, b) {
-    return ~~((this.Random() / 1) * (b - a) + a);
+    return ~~((this.Random() / 1) * ((b+1) - a) + a);
 }
 
 Game.RandomCoin = function () {
