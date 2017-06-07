@@ -316,10 +316,6 @@ Game.SetTurn = function (turn) {
 }
 
 Game.HeroForward = function () {
-    if (Game.UnitMap[TypeMonster][Game.Hero.gy][Game.Hero.gx] ||
-        Game.UnitMap[TypeTrap][Game.Hero.gy][Game.Hero.gx]) {
-        throw "dead";
-    }
     Game.Hero.Forward();
     if (Game.UnitMap[TypeMonster][Game.Hero.gy][Game.Hero.gx] ||
         Game.UnitMap[TypeTrap][Game.Hero.gy][Game.Hero.gx]) {
@@ -331,6 +327,21 @@ Game.HeroForward = function () {
     }
 }
 
+Game.GoodJob = function (enable) {
+    if (!this._goodjob) {
+        this._goodjob = new Raster("img/goodjob.png");
+        var ib = this._goodjob.getBounds();
+        var vb = view.getBounds();
+        ib.width = vb.width;
+        ib.height = ib.height / ib.width * vb.width;
+        ib.visible = false;
+        ib.x = 0;
+        ib.y = (vb.height / 2) - (ib.height / 2);
+    }
+
+    this._goodjob.visible = enable;
+}
+
 function onFrame(event) {
     Game.MovableUnits.forEach(function (unit) {
         var vector = unit.dest - unit.obj.position;
@@ -339,38 +350,42 @@ function onFrame(event) {
 }
 
 function onTurn() {
-    Game.MovableUnits.forEach(function (unit) {
-        var next, go = false, r;
-        if (unit.type == TypeMonster) {
-            do {
-                next = unit.Next();
-                if (next.x < 1 || next.y < 1 || next.x > 10 || next.y > 10) {
-                    unit.TurnBack();
-                }
-                else if (Game.UnitMap[TypeMonster][next.y][next.x]) {
-                    if (Game.RandomCoin()) unit.TurnRight();
-                    else unit.TurnLeft();
-                }
-                else if (Game.UnitMap[TypeTrap][next.y][next.x]) {
-                    if (Game.RandomCoin()) unit.TurnRight();
-                    else unit.TurnLeft();
-                }
-                else if (Game.UnitMap[TypeTreasure][next.y][next.x]) {
-                    if (Game.RandomCoin()) unit.TurnRight();
-                    else unit.TurnLeft();
-                }
-                else {
-                    r = Game.Random2(1, 10);
-                    if (r == 3) unit.TurnRight();
-                    else if (r == 7) unit.TurnLeft();
-                    unit.Forward();
-                    go = true;
-                }
-            } while (!go);
-        }
-    });
-
     try {
+        Game.MovableUnits.forEach(function (unit) {
+            var next, go = false, r;
+            if (unit.type == TypeMonster) {
+                do {
+                    next = unit.Next();
+                    if (next.x < 1 || next.y < 1 || next.x > 10 || next.y > 10) {
+                        unit.TurnBack();
+                    }
+                    else if (Game.UnitMap[TypeMonster][next.y][next.x]) {
+                        if (Game.RandomCoin()) unit.TurnRight();
+                        else unit.TurnLeft();
+                    }
+                    else if (Game.UnitMap[TypeTrap][next.y][next.x]) {
+                        if (Game.RandomCoin()) unit.TurnRight();
+                        else unit.TurnLeft();
+                    }
+                    else if (Game.UnitMap[TypeTreasure][next.y][next.x]) {
+                        if (Game.RandomCoin()) unit.TurnRight();
+                        else unit.TurnLeft();
+                    }
+                    else {
+                        r = Game.Random2(1, 10);
+                        if (r == 3) unit.TurnRight();
+                        else if (r == 7) unit.TurnLeft();
+                        unit.Forward();
+                        go = true;
+                    }
+                } while (!go);
+
+                if (unit.gx == Game.Hero.gx && unit.gy == Game.Hero.gy) {
+                    throw "dead";
+                }
+            }
+        });
+
         eval(Game.GetHeroScript());
     } catch (ex) {
         if (ex == "dead") {
@@ -391,6 +406,11 @@ function onTurn() {
 
 Game.OnPage = function () {
     Game.Initialize();
+    onTurn();
+}
+
+Game.DebugTurn = function () {
+    Game._running = false;
     onTurn();
 }
 
