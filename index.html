@@ -101,6 +101,15 @@
 			left:-30px;
 			top:30px;
 		}
+
+		#run_button {
+			color:green;
+			font-weight: bold;
+		}
+		#stop_button {
+			color:red;
+			font-weight: bold;
+		}
 	</style>
 </head>
 
@@ -120,7 +129,7 @@
 			<div class="numbers_description">score / turn</div>
 
 			<div class="code_description">
-				히어로는 매턴마다 오른쪽의 코드와 같이 움직입니다.
+				히어로는 <b>매턴</b>마다 오른쪽의 코드와 같이 움직입니다.
 				<button id="example_code">Example</button> 을 확인 하세요.
 			</div>
 
@@ -166,42 +175,6 @@
 			</block>
 			<block type="logic_null"></block>
 			<block type="logic_ternary"></block>
-		</category>
-		<category name="Loops" colour="#5CA65C">
-			<block type="controls_repeat_ext">
-				<value name="TIMES">
-					<shadow type="math_number">
-						<field name="NUM">10</field>
-					</shadow>
-				</value>
-			</block>
-			<block type="controls_whileUntil">
-				<field name="MODE">WHILE</field>
-			</block>
-			<block type="controls_for">
-				<field name="VAR">i</field>
-				<value name="FROM">
-					<shadow type="math_number">
-						<field name="NUM">1</field>
-					</shadow>
-				</value>
-				<value name="TO">
-					<shadow type="math_number">
-						<field name="NUM">10</field>
-					</shadow>
-				</value>
-				<value name="BY">
-					<shadow type="math_number">
-						<field name="NUM">1</field>
-					</shadow>
-				</value>
-			</block>
-			<block type="controls_forEach">
-				<field name="VAR">j</field>
-			</block>
-			<block type="controls_flow_statements">
-				<field name="FLOW">BREAK</field>
-			</block>
 		</category>
 		<category name="Variables" colour="#A65C81" custom="VARIABLE"></category>
 		<category name="Math" colour="#5C68A6">

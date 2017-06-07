@@ -394,6 +394,14 @@ function onTurn() {
         }
         else if (ex == "treasure") {
             Game.SetScore(Game.Score + 100);
+            var treasure_cnt = 0;
+            Game.AllUnits.forEach(function(unit){
+                if (unit.type == TypeTreasure) treasure_cnt++;
+            });
+            if (treasure_cnt == 0) {
+                Game.Stop();
+                Game.GoodJob();
+            }
         }
     }
 
