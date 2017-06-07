@@ -66,7 +66,7 @@
 		}
 
 		.code_description {
-			border:1px solid blue;
+			border:1px dashed blue;
 		}
 
 		#img_hero,
@@ -85,11 +85,29 @@
 		.saveorload {
 			margin-top: 1em;
 		}
+
+		#chrome_only {
+			position: absolute;
+			color: white;
+			font-weight:bold;
+			text-align: center;
+			line-height:20px;
+			border:2px dashed white;
+			background-color:red;
+			vertical-align: middle;
+			transform: rotate(-45deg);
+			width:140px;
+			height:21px;
+			left:-30px;
+			top:30px;
+		}
 	</style>
 </head>
 
 
 <body>
+	<img id="goodjob" src="img/goodjob.png" syle="display:none">
+	<div id="chrome_only">Chrome only</div>
 	<div id="title"><img src="img/Code-survivor.png"></div>
 	<div id="playground">
 		<canvas id="holder"></canvas>
@@ -118,8 +136,6 @@
 			<div class="description">
 				<img src="img/treasure.png" id="img_treasure"> : 보물, 만나면 점수가 많이 오릅니다.
 			</div>
-
-
 
 			<div class="saveorload"><button id="codecapture">capture</button> or <button id="codeload">load</button> this code</div>
 			<textarea id="xmlcode"></textarea>
@@ -249,6 +265,7 @@
 		}, false);
 
 		document.getElementById('codeload').addEventListener('click', function () {
+			GameWorkspace.clear();
 			var code = atob(xmlcode.value);
 			var xml = Blockly.Xml.textToDom(code);
 			Blockly.Xml.domToWorkspace(xml, GameWorkspace);
