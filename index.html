@@ -60,13 +60,17 @@
 			font-weight: bold;
 		}
 
+		.description {
+			font-size: 0.8em;
+		}
+
 		.numbers_description {
 			text-align: center;
 			color: green;
 		}
 
 		.code_description {
-			border:1px dashed blue;
+			border: 1px dashed blue;
 		}
 
 		#img_hero,
@@ -89,25 +93,26 @@
 		#chrome_only {
 			position: absolute;
 			color: white;
-			font-weight:bold;
+			font-weight: bold;
 			text-align: center;
-			line-height:20px;
-			border:2px dashed white;
-			background-color:red;
+			line-height: 20px;
+			border: 2px dashed white;
+			background-color: red;
 			vertical-align: middle;
 			transform: rotate(-45deg);
-			width:140px;
-			height:21px;
-			left:-30px;
-			top:30px;
+			width: 140px;
+			height: 21px;
+			left: -30px;
+			top: 30px;
 		}
 
 		#run_button {
-			color:green;
+			color: green;
 			font-weight: bold;
 		}
+
 		#stop_button {
-			color:red;
+			color: red;
 			font-weight: bold;
 		}
 	</style>
@@ -123,7 +128,7 @@
 		<div id="game_board">
 			<div class="numbers">
 				<span id="game_score">0</span> /
-				<span id="game_turn">0</span> = 
+				<span id="game_turn">0</span> =
 				<span id="game_totalscore">0</span>
 			</div>
 			<div class="numbers_description">score / turn</div>
@@ -134,16 +139,28 @@
 			</div>
 
 			<div class="description">
+				<img src="img/runthegame.png" id="img_runbutton"> : 작성된 코드로 동작하는 게임을 시작 합니다.
+			</div>
+
+			<div class="description">
+				<img src="img/stopthegame.png" id="img_stopbutton"> : 게임을 중단합니다.
+			</div>
+
+			<div class="description">
+				Stage Number : Integer 숫자마다 각기 다른 Stage 초기가 존재 합니다.
+			</div>
+
+			<div class="description">
 				<img src="img/hero.png" id="img_hero"> : 히어로, 함정이나 몬스터에게 닿으면 죽습니다.
 			</div>
 			<div class="description">
 				<img src="img/monster.png" id="img_monster"> : 몬스터, 함정이나 보물, 벽을 만나면 방향을 바꿉니다.
 			</div>
 			<div class="description">
-				<img src="img/trap.png" id="img_trap"> : 함정, 히어로가 닿으면 죽습니다.
+				<img src="img/trap.png" id="img_trap"> : 함정, 히어로가 닿으면 죽습니다. 그리고 게임이 끝납니다!
 			</div>
 			<div class="description">
-				<img src="img/treasure.png" id="img_treasure"> : 보물, 만나면 점수가 많이 오릅니다.
+				<img src="img/treasure.png" id="img_treasure"> : 보물, 만나면 점수가 100점 오릅니다! 모든 보물을 먹으면 게임이 끝납니다!
 			</div>
 
 			<div class="saveorload"><button id="codecapture">capture</button> or <button id="codeload">load</button> this code</div>
@@ -283,7 +300,7 @@
 
 		}
 
-		document.getElementById("example_code").addEventListener("click", function(e) {
+		document.getElementById("example_code").addEventListener("click", function (e) {
 			var code = "PHhtbCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+PGJsb2NrIHR5cGU9ImNvbnRyb2xzX2lmIiBpZD0icEY7ZERwakxSP2ModHM/UGojVngiIHg9IjExMiIgeT0iNjciPjxtdXRhdGlvbiBlbHNlaWY9IjIiPjwvbXV0YXRpb24+PHZhbHVlIG5hbWU9IklGMCI+PGJsb2NrIHR5cGU9ImxvZ2ljX2NvbXBhcmUiIGlkPSJbOWFBXy1eazEoOi4wNDppX1l0UyI+PGZpZWxkIG5hbWU9Ik9QIj5FUTwvZmllbGQ+PHZhbHVlIG5hbWU9IkEiPjxibG9jayB0eXBlPSJkZXRlY3QiIGlkPSJ2MXhIenQsaWB5VCpAQS1MMioheCI+PC9ibG9jaz48L3ZhbHVlPjx2YWx1ZSBuYW1lPSJCIj48YmxvY2sgdHlwZT0iYmxvY2tlcl93YWxsIiBpZD0icWdRcl8xYUEhYEsqQXA5Z1ZSOGwiPjwvYmxvY2s+PC92YWx1ZT48L2Jsb2NrPjwvdmFsdWU+PHN0YXRlbWVudCBuYW1lPSJETzAiPjxibG9jayB0eXBlPSJ0dXJuX3JpZ2h0IiBpZD0iWWgsOlZ+M3w/dWstKlQ3S1N7KWciPjwvYmxvY2s+PC9zdGF0ZW1lbnQ+PHZhbHVlIG5hbWU9IklGMSI+PGJsb2NrIHR5cGU9ImxvZ2ljX2NvbXBhcmUiIGlkPSJFK1tFVzkxPzNXcDk4azhtb2FkLCI+PGZpZWxkIG5hbWU9Ik9QIj5FUTwvZmllbGQ+PHZhbHVlIG5hbWU9IkEiPjxibG9jayB0eXBlPSJkZXRlY3QiIGlkPSJ5TEpiSkxrKHB+MXIyP1ZMRj9WUSI+PC9ibG9jaz48L3ZhbHVlPjx2YWx1ZSBuYW1lPSJCIj48YmxvY2sgdHlwZT0iYmxvY2tlcl9tb25zdGVyIiBpZD0iUTYyUG1wXXk/K2szQ0tyfEREPzAiPjwvYmxvY2s+PC92YWx1ZT48L2Jsb2NrPjwvdmFsdWU+PHN0YXRlbWVudCBuYW1lPSJETzEiPjxibG9jayB0eXBlPSJ0dXJuX3JpZ2h0IiBpZD0iMDFlW3RkenotRnhhMExbKWxKcG0iPjwvYmxvY2s+PC9zdGF0ZW1lbnQ+PHZhbHVlIG5hbWU9IklGMiI+PGJsb2NrIHR5cGU9ImxvZ2ljX2NvbXBhcmUiIGlkPSJDV0c1diNvYjhVfHRpTHw7Tjs2UCI+PGZpZWxkIG5hbWU9Ik9QIj5FUTwvZmllbGQ+PHZhbHVlIG5hbWU9IkEiPjxibG9jayB0eXBlPSJkZXRlY3QiIGlkPSIjXXJdOz83dEVRbHtOXz9DYmc0LCI+PC9ibG9jaz48L3ZhbHVlPjx2YWx1ZSBuYW1lPSJCIj48YmxvY2sgdHlwZT0iYmxvY2tlcl90cmFwIiBpZD0iQV0jQmc7X3wyKCNiUmtkWTg/NkwiPjwvYmxvY2s+PC92YWx1ZT48L2Jsb2NrPjwvdmFsdWU+PHN0YXRlbWVudCBuYW1lPSJETzIiPjxibG9jayB0eXBlPSJ0dXJuX2xlZnQiIGlkPSI0fVA5LE9UbEssV1tzUElpJWtgSiI+PG5leHQ+PGJsb2NrIHR5cGU9InR1cm5fbGVmdCIgaWQ9IlRCUFJgQCh4NFFjW1BHZkV5MGt1Ij48L2Jsb2NrPjwvbmV4dD48L2Jsb2NrPjwvc3RhdGVtZW50PjxuZXh0PjxibG9jayB0eXBlPSJtb3ZlX2ZvcndhcmQiIGlkPSJ1SSosRjdRfT1FPVBkU0lrNy8hfiI+PC9ibG9jaz48L25leHQ+PC9ibG9jaz48L3htbD4=";
 			var code = atob(code);
 			GameWorkspace.clear();
@@ -291,7 +308,7 @@
 			Blockly.Xml.domToWorkspace(xml, GameWorkspace);
 		}, false);
 
-		function round (number, precision) {
+		function round(number, precision) {
 			var factor = Math.pow(10, precision);
 			var temp = number * factor;
 			var rounded = Math.round(temp);
