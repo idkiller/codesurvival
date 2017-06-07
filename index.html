@@ -96,7 +96,8 @@
 		<div id="game_board">
 			<div class="numbers">
 				<span id="game_score">0</span> /
-				<span id="game_turn">0</span>
+				<span id="game_turn">0</span> = 
+				<span id="game_totalscore">0</span>
 			</div>
 			<div class="numbers_description">score / turn</div>
 
@@ -287,13 +288,28 @@
 			Blockly.Xml.domToWorkspace(xml, GameWorkspace);
 		}, false);
 
+		function round (number, precision) {
+			var factor = Math.pow(10, precision);
+			var temp = number * factor;
+			var rounded = Math.round(temp);
+			return rounded / factor;
+		}
+
+		function score_calc() {
+			var score = parseInt(document.getElementById('game_score').innerText);
+			var turn = parseInt(document.getElementById('game_turn').innerText);
+			document.getElementById('game_totalscore').innerText = round(score / turn, 2);
+		}
+
 		window.addEventListener('load', function () {
 			paper.Game.SetRandomSeed(parseInt(seed_form.value));
 			paper.Game.SetScoreCallback(function (score) {
 				document.getElementById('game_score').innerText = score;
+				score_calc();
 			});
 			paper.Game.SetTurnCallback(function (turn) {
 				document.getElementById('game_turn').innerText = turn;
+				score_calc();
 			});
 			paper.Game.OnPage();
 		}, false);
