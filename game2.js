@@ -94,6 +94,7 @@ Game.Reset = function () {
     if (this._turnFunc) this._turnFunc(0);
 
     this.DeadSign(false);
+    Game.GoodJob(false);
 
     this.UnitMap = [];
 
@@ -394,15 +395,16 @@ function onTurn() {
         }
         else if (ex == "treasure") {
             Game.SetScore(Game.Score + 100);
-            var treasure_cnt = 0;
-            Game.AllUnits.forEach(function(unit){
-                if (unit.type == TypeTreasure) treasure_cnt++;
-            });
-            if (treasure_cnt == 0) {
-                Game.Stop();
-                Game.GoodJob();
-            }
         }
+    }
+
+    var treasure_cnt = 0;
+    Game.AllUnits.forEach(function (unit) {
+        if (unit.type == TypeTreasure) treasure_cnt++;
+    });
+    if (treasure_cnt == 0) {
+        Game.GoodJob(true);
+        Game.Stop();
     }
 
     Game.SetTurn(Game.Turn + 1);

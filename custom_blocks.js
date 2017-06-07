@@ -96,53 +96,121 @@ Blockly.JavaScript['blocker_treasure'] = function (block) {
     return ["\'treasure\'", Blockly.JavaScript.ORDER_NONE];
 }
 
-var GameWorkspace = null;
-
-var unique_step_number = false;
-
-var step_number_block = {
-    "message0": "Set  %1 Step in a turn",
-    "args0": [
-        {
-            "type": "input_value",
-            "name": "count",
-            "check": "Number"
-        }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": 330
-};
-
-Blockly.Blocks['step_number'] = {
+Blockly.Blocks['limit_loop'] = {
     init: function () {
-        this.jsonInit(step_number_block);
         var self = this;
-        this.setTooltip(function () {
-            return "Set " + self.getFieldValue('count') + " in a thrun"
-        });
+        this.appendValueInput("cond")
+            .setCheck("Boolean")
+            .appendField("repeat")
+            .appendField(new Blockly.FieldDropdown([["while", "0"], ["until", "1"]]), "mode")
+            .appendField("until maximum 100 times");
+        this.appendStatementInput("do")
+            .setCheck(null)
+            .appendField("do");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip('While a value is %1, then do some statements. but under 100 times.'.replace('%1', self.getFieldValue('mode') == 0 ? 'true' : 'false'));
     }
 };
 
-Blockly.JavaScript['step_number'] = function (block) {
-    var value_count = Blockly.JavaScript.valueToCode(block, 'count', Blockly.JavaScript.ORDER_ATOMIC);
+var __limit_loop_count = 0;
 
-    if (value_count == "" || value_count == null) {
-        block.setWarningText("step can not be empty.");
-        return "// step can not be empty\n";
+Blockly.JavaScript['limit_loop'] = function (block) {
+    var dropdown_mode = block.getFieldValue('mode');
+    var value_cond = Blockly.JavaScript.valueToCode(block, 'cond', Blockly.JavaScript.ORDER_ATOMIC);
+    var statements_do = Blockly.JavaScript.statementToCode(block, 'do');
+    // TODO: Assemble JavaScript into code variable.
+
+    var condition_cnt_name = 'll_cond_cnt' + __limit_loop_count;
+    var code = 'var ' + condition_cnt_name + ' = 0;\n';
+
+    code += 'while (' + condition_cnt_name + '++ < 100';
+    if (value_cond) {
+        code += ' && ';
+        if (dropdown_mode == 1) code += '!';
+        code += value_cond;
     }
+    code += ') {\n';
+    code += statements_do;
+    code += '}\n';
 
-    var code = 'StepInATurn = ' + value_count + ';\n';
-
-    var blocks = GameWorkspace.getAllBlocks();
-    var b = null, i = 0;
-    for (; i < blocks.length; i++) {
-        b = blocks[i];
-        if (b.type == "step_number") {
-            block.setWarningText("Count is set twice.");
-        }
-    }
-
+    __limit_loop_count++;
     return code;
+};
+
+Blockly.Blocks['limit_count_loop'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("repeat")
+            .appendField(new Blockly.FieldNumber(0, 0, 100), "count")
+            .appendField("until maximum 100 times");
+        this.appendStatementInput("do")
+            .setCheck(null)
+            .appendField("do");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(230);
+        this.setTooltip('Do some statements several times under maximum 100 times.');
+    }
+};
+
+var __limit_count_loop_count = 0;
+
+Blockly.JavaScript['limit_count_loop'] = function (block) {
+    var number_count = block.getFieldValue('count');
+    var statements_do = Blockly.JavaScript.statementToCode(block, 'do');
+    // TODO: Assemble JavaScript into code variable.
+    var counter_name = 'lcl_counter' + __limit_count_loop_count;
+    var code = 'var ' + counter_name + ' = 0;\n';
+    code += 'while (';
+    code += counter_name + '++ < (' + number_count + '%101)) {\n';
+    code += statements_do;
+    code += '}\n';
+    return code;
+};
+
+Blockly.Blocks['set_to_global'] = {
+    init: function () {
+        this.appendValueInput("variable")
+            .setCheck(null)
+            .appendField("set");
+        this.appendDummyInput()
+            .appendField("to global")
+            .appendField(new Blockly.FieldTextInput("variable"), "var_name");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(160);
+        this.setTooltip('set value to global.' + this.getFieldValue('var_name'));
+    }
+};
+
+var Code_variables = {};
+
+Blockly.JavaScript['set_to_global'] = function (block) {
+    var value_variable = Blockly.JavaScript.valueToCode(block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+    var text_var_name = block.getFieldValue('var_name');
+    // TODO: Assemble JavaScript into code variable.
+    var code = 'Code_variables["' + text_var_name + '"] = ' + value_variable + ';\n';
+    return code;
+};
+
+Blockly.Blocks['get_from_global'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("get from global")
+            .appendField(new Blockly.FieldTextInput("variable"), "var_name");
+        this.setOutput(true, null);
+        this.setColour(160);
+        this.setTooltip('set value to global.' + this.getFieldValue('var_name'));
+    }
+};
+
+Blockly.JavaScript['get_from_global'] = function (block) {
+    var value_variable = Blockly.JavaScript.valueToCode(block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+    var text_var_name = block.getFieldValue('var_name');
+    // TODO: Assemble JavaScript into code variable.
+    var code = '(Code_variables["' + text_var_name + '"])';
+    // TODO: Change ORDER_NONE to the correct strength.
+    return [code, Blockly.JavaScript.ORDER_NONE];
 };
