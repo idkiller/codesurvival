@@ -16,7 +16,7 @@ var Game = {
     GridColor: 'gray',
     Fog: null,
     Sight: null,
-    RandomSeed: 1,
+    RandomSeed: 2,
     Score: 0,
     Turn: 0,
 
@@ -373,10 +373,10 @@ function onTurn() {
                         else unit.TurnLeft();
                     }
                     else {
+                        unit.Forward();
                         r = Game.Random2(1, 10);
                         if (r == 3) unit.TurnRight();
                         else if (r == 7) unit.TurnLeft();
-                        unit.Forward();
                         go = true;
                     }
                 } while (!go);
