@@ -28,8 +28,8 @@ Blockly.defineBlocksWithJsonArray([
 
     {
         "type": "detect",
-        "message0": "Detect",
-        "colour": 120,
+        "message0": "In front of me",
+        "colour": 72,
         "output": "String",
         "tooltip": "detect what is front of hero"
     },
