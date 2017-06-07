@@ -19,6 +19,7 @@
 		#title {
 			text-align: center;
 		}
+
 		#playground {
 			height: 400px;
 			width: 400px;
@@ -59,6 +60,14 @@
 			font-weight: bold;
 		}
 
+		.numbers_description {
+			text-align: center;
+			color: green;
+		}
+
+		.code_description {
+			border:1px solid blue;
+		}
 
 		#img_hero,
 		#img_monster,
@@ -89,6 +98,13 @@
 				<span id="game_score">0</span> /
 				<span id="game_turn">0</span>
 			</div>
+			<div class="numbers_description">score / turn</div>
+
+			<div class="code_description">
+				히어로는 매턴마다 오른쪽의 코드와 같이 움직입니다.
+				<button id="example_code">Example</button> 을 확인 하세요.
+			</div>
+
 			<div class="description">
 				<img src="img/hero.png" id="img_hero"> : 히어로, 함정이나 몬스터에게 닿으면 죽습니다.
 			</div>
@@ -101,6 +117,8 @@
 			<div class="description">
 				<img src="img/treasure.png" id="img_treasure"> : 보물, 만나면 점수가 많이 오릅니다.
 			</div>
+
+
 
 			<div class="saveorload"><button id="codecapture">capture</button> or <button id="codeload">load</button> this code</div>
 			<textarea id="xmlcode"></textarea>
@@ -261,6 +279,13 @@
 			seed_form.value = localStorage['random_seed'];
 
 		}
+
+		document.getElementById("example_code").addEventListener("click", function(e) {
+			var code = "PHhtbCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+PGJsb2NrIHR5cGU9ImNvbnRyb2xzX2lmIiBpZD0icEY7ZERwakxSP2ModHM/UGojVngiIHg9IjExMiIgeT0iNjciPjxtdXRhdGlvbiBlbHNlaWY9IjIiPjwvbXV0YXRpb24+PHZhbHVlIG5hbWU9IklGMCI+PGJsb2NrIHR5cGU9ImxvZ2ljX2NvbXBhcmUiIGlkPSJbOWFBXy1eazEoOi4wNDppX1l0UyI+PGZpZWxkIG5hbWU9Ik9QIj5FUTwvZmllbGQ+PHZhbHVlIG5hbWU9IkEiPjxibG9jayB0eXBlPSJkZXRlY3QiIGlkPSJ2MXhIenQsaWB5VCpAQS1MMioheCI+PC9ibG9jaz48L3ZhbHVlPjx2YWx1ZSBuYW1lPSJCIj48YmxvY2sgdHlwZT0iYmxvY2tlcl93YWxsIiBpZD0icWdRcl8xYUEhYEsqQXA5Z1ZSOGwiPjwvYmxvY2s+PC92YWx1ZT48L2Jsb2NrPjwvdmFsdWU+PHN0YXRlbWVudCBuYW1lPSJETzAiPjxibG9jayB0eXBlPSJ0dXJuX3JpZ2h0IiBpZD0iWWgsOlZ+M3w/dWstKlQ3S1N7KWciPjwvYmxvY2s+PC9zdGF0ZW1lbnQ+PHZhbHVlIG5hbWU9IklGMSI+PGJsb2NrIHR5cGU9ImxvZ2ljX2NvbXBhcmUiIGlkPSJFK1tFVzkxPzNXcDk4azhtb2FkLCI+PGZpZWxkIG5hbWU9Ik9QIj5FUTwvZmllbGQ+PHZhbHVlIG5hbWU9IkEiPjxibG9jayB0eXBlPSJkZXRlY3QiIGlkPSJ5TEpiSkxrKHB+MXIyP1ZMRj9WUSI+PC9ibG9jaz48L3ZhbHVlPjx2YWx1ZSBuYW1lPSJCIj48YmxvY2sgdHlwZT0iYmxvY2tlcl9tb25zdGVyIiBpZD0iUTYyUG1wXXk/K2szQ0tyfEREPzAiPjwvYmxvY2s+PC92YWx1ZT48L2Jsb2NrPjwvdmFsdWU+PHN0YXRlbWVudCBuYW1lPSJETzEiPjxibG9jayB0eXBlPSJ0dXJuX3JpZ2h0IiBpZD0iMDFlW3RkenotRnhhMExbKWxKcG0iPjwvYmxvY2s+PC9zdGF0ZW1lbnQ+PHZhbHVlIG5hbWU9IklGMiI+PGJsb2NrIHR5cGU9ImxvZ2ljX2NvbXBhcmUiIGlkPSJDV0c1diNvYjhVfHRpTHw7Tjs2UCI+PGZpZWxkIG5hbWU9Ik9QIj5FUTwvZmllbGQ+PHZhbHVlIG5hbWU9IkEiPjxibG9jayB0eXBlPSJkZXRlY3QiIGlkPSIjXXJdOz83dEVRbHtOXz9DYmc0LCI+PC9ibG9jaz48L3ZhbHVlPjx2YWx1ZSBuYW1lPSJCIj48YmxvY2sgdHlwZT0iYmxvY2tlcl90cmFwIiBpZD0iQV0jQmc7X3wyKCNiUmtkWTg/NkwiPjwvYmxvY2s+PC92YWx1ZT48L2Jsb2NrPjwvdmFsdWU+PHN0YXRlbWVudCBuYW1lPSJETzIiPjxibG9jayB0eXBlPSJ0dXJuX2xlZnQiIGlkPSI0fVA5LE9UbEssV1tzUElpJWtgSiI+PG5leHQ+PGJsb2NrIHR5cGU9InR1cm5fbGVmdCIgaWQ9IlRCUFJgQCh4NFFjW1BHZkV5MGt1Ij48L2Jsb2NrPjwvbmV4dD48L2Jsb2NrPjwvc3RhdGVtZW50PjxuZXh0PjxibG9jayB0eXBlPSJtb3ZlX2ZvcndhcmQiIGlkPSJ1SSosRjdRfT1FPVBkU0lrNy8hfiI+PC9ibG9jaz48L25leHQ+PC9ibG9jaz48L3htbD4=";
+			var code = atob(code);
+			var xml = Blockly.Xml.textToDom(code);
+			Blockly.Xml.domToWorkspace(xml, GameWorkspace);
+		}, false);
 
 		window.addEventListener('load', function () {
 			paper.Game.SetRandomSeed(parseInt(seed_form.value));
