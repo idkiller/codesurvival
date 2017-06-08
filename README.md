@@ -25,3 +25,31 @@
 ## Party!
 * 6월 19일 ~ 23일 각 파트별로 이번 GWP를 기념하는 회식 자리를 가지려고 합니다.
 * 각 파트별 총무와 함께 파트별 회식 스케쥴은 19~23일 사이에 따로 잡도록 하겠습니다.
+
+----
+
+# DXL Q2 2017 GWP "Code Survival"!
+
+For the hot summer, this event will test your patience and power of the coding!
+
+* once try it despite you don't like coding!
+* You can make a code to easy with minimal Block coding method!
+* ~~It was a very hard to make it. please try it XD~~
+
+# __[Go Game](https://github.sec.samsung.net/pages/pius-lee/codesurvival/)__
+
+## Rule
+* Score / turn = "total score" : it's displayed in big red letter on the left side and bottom of the game screen.
+* Winner is who makes the code with the highest total score
+* At the same score, __Shorter code__ wins.
+* Depending on the __Stage Number__ on upper right of the screen, the numbers and positions of the traps, monsters, and treasures in game will change.
+* Send me code in textarea on bottom left of the screen after using __capture__ button.
+* Ranking might be ordered by your score created in your codes in specific __Stage Number__.
+
+## Awards
+* Traditional market Gift certificates(온누리상품권) of 700,000 won to the top 8! (20, 10, 10, 10, 5, 5, 5, 5)
+* On June 19th at around 3:00 pm, we should get the Meeting for Awards in the largest room on fifth floor! _(Time may change.)_
+
+## Party!
+* June 19 ~ 23 We are going to have a party to celebrate this GWP for each part.
+* We will arrange a separate party schedule for each part with the secretary between 19-23 days.
