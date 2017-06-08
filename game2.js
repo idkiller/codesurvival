@@ -354,23 +354,28 @@ function onTurn() {
     try {
         Game.MovableUnits.forEach(function (unit) {
             var next, go = false, r;
+            var checked = 0;
             if (unit.type == TypeMonster) {
                 do {
                     next = unit.Next();
                     if (next.x < 1 || next.y < 1 || next.x > 10 || next.y > 10) {
                         unit.TurnBack();
+                        checked++;
                     }
                     else if (Game.UnitMap[TypeMonster][next.y][next.x]) {
                         if (Game.RandomCoin()) unit.TurnRight();
                         else unit.TurnLeft();
+                        checked++;
                     }
                     else if (Game.UnitMap[TypeTrap][next.y][next.x]) {
                         if (Game.RandomCoin()) unit.TurnRight();
                         else unit.TurnLeft();
+                        checked++;
                     }
                     else if (Game.UnitMap[TypeTreasure][next.y][next.x]) {
                         if (Game.RandomCoin()) unit.TurnRight();
                         else unit.TurnLeft();
+                        checked++;
                     }
                     else {
                         unit.Forward();
@@ -378,6 +383,9 @@ function onTurn() {
                         if (r == 3) unit.TurnRight();
                         else if (r == 7) unit.TurnLeft();
                         go = true;
+                    }
+                    if (checked > 4) {
+                        break;
                     }
                 } while (!go);
 
