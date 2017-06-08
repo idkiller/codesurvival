@@ -167,6 +167,8 @@ Blockly.JavaScript['limit_count_loop'] = function (block) {
     code += counter_name + '++ < (' + number_count + '%101)) {\n';
     code += statements_do;
     code += '}\n';
+
+    __limit_count_loop_count++;
     return code;
 };
 
