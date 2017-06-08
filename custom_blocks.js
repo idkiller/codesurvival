@@ -36,28 +36,28 @@ Blockly.defineBlocksWithJsonArray([
     {
         "type": "blocker_wall",
         "message0": "Wall",
-        "colour": 120,
+        "colour": 230,
         "output": "String",
         "tooltip": "Wall"
     },
     {
         "type": "blocker_monster",
         "message0": "Monster",
-        "colour": 120,
+        "colour": 230,
         "output": "String",
         "tooltip": "Monster"
     },
     {
         "type": "blocker_trap",
         "message0": "Trap",
-        "colour": 120,
+        "colour": 230,
         "output": "String",
         "tooltip": "Trap"
     },
     {
         "type": "blocker_treasure",
         "message0": "Treasure",
-        "colour": 120,
+        "colour": 230,
         "output": "String",
         "tooltip": "Treasure"
     }
@@ -109,7 +109,7 @@ Blockly.Blocks['limit_loop'] = {
             .appendField("do");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(230);
+        this.setColour(120);
         this.setTooltip('While a value is %1, then do some statements. but under 100 times.'.replace('%1', self.getFieldValue('mode') == 0 ? 'true' : 'false'));
     }
 };
@@ -150,7 +150,7 @@ Blockly.Blocks['limit_count_loop'] = {
             .appendField("do");
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(230);
+        this.setColour(120);
         this.setTooltip('Do some statements several times under maximum 100 times.');
     }
 };

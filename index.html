@@ -160,7 +160,7 @@
 				<img src="img/trap.png" id="img_trap"> : 함정, 히어로가 닿으면 죽습니다. 그리고 게임이 끝납니다!
 			</div>
 			<div class="description">
-				<img src="img/treasure.png" id="img_treasure"> : 보물, 만나면 점수가 100점 오릅니다! 모든 보물을 먹으면 게임이 끝납니다!
+				<img src="img/treasure.png" id="img_treasure"> : 보물, 만나면 점수가 1000점 오릅니다! 모든 보물을 먹으면 게임이 끝납니다!
 			</div>
 
 			<div class="saveorload"><button id="codecapture">capture</button> or <button id="codeload">load</button> this code</div>
@@ -199,6 +199,9 @@
 			</block>
 			<block type="limit_count_loop">
 				<field name="count">0</field>
+			</block>
+			<block type="controls_flow_statements">
+				<field name="FLOW">BREAK</field>
 			</block>
 		</category>
 		<category name="Variables" colour="#A65C81" custom="VARIABLE"></category>
