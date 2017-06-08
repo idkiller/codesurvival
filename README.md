@@ -15,7 +15,7 @@
 * 최종 점수가 높은 코드를 만드는 사람이 우승하게 됩니다.
 * 동일 점수 시 __더 짧은 코드를 짠__ 사람이 승리 합니다.
 * 화면 상단 우측의 __Stage Number__ 에 따라 게임의 함정, 몬스터, 보물의 수와 위치가 변경 됩니다.
-* 화면 좌측 하단의 __capture__ button으로 textarea에 나타난 코드를 보내 주시면 됩니다!
+* 화면 좌측 하단의 __capture__ button으로 textarea에 나타난 코드를 보내 주시면 됩니다! ([제 메일](pius.lee@samsung.com)로 보내주세요!)
 * 보내주신 코드들을 심사시에 직접 정해진 __Stage Number__ 에서 돌려보고 점수를 내서 우승자를 가립니다.
 
 ## Awards
@@ -43,7 +43,7 @@ For the hot summer, this event will test your patience and power of the coding!
 * Winner is who makes the code with the highest total score
 * At the same score, __Shorter code__ wins.
 * Depending on the __Stage Number__ on upper right of the screen, the numbers and positions of the traps, monsters, and treasures in game will change.
-* Send me code in textarea on bottom left of the screen after using __capture__ button.
+* Send me code in textarea on bottom left of the screen after using __capture__ button. (send code to [my email](pius.lee@samsung.com)!)
 * Ranking might be ordered by your score created in your codes in specific __Stage Number__.
 
 ## Awards
