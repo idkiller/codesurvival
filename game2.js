@@ -394,7 +394,7 @@ function onTurn() {
             Game.DeadSign(true);
         }
         else if (ex == "treasure") {
-            Game.SetScore(Game.Score + 100);
+            Game.SetScore(Game.Score + 1000);
         }
     }
 
