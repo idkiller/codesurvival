@@ -69,11 +69,11 @@ Blockly.JavaScript['move_forward'] = function (block) {
 };
 
 Blockly.JavaScript['turn_right'] = function (block) {
-    return 'Game.Hero.TurnRight();\n';
+    return 'Game.HeroTurnRight();\n';
 };
 
 Blockly.JavaScript['turn_left'] = function (block) {
-    return 'Game.Hero.TurnLeft();\n';
+    return 'Game.HeroTurnLeft();\n';
 }
 
 Blockly.JavaScript['detect'] = function (block) {

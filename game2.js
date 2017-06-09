@@ -326,6 +326,33 @@ Game.HeroForward = function () {
         Game.UnitMap[TypeTreasure][Game.Hero.gy][Game.Hero.gx].Remove();
         throw "treasure";
     }
+    Game.Hero.RotaryCount = 0;
+}
+
+Game.HeroTurnRight = function () {
+    Game.Hero.TurnRight();
+    if (typeof Game.Hero.RotaryCount === 'undefined') {
+        Game.Hero.RotaryCount = 1;
+    }
+    else {
+        Game.Hero.RotaryCount++;
+    }
+    if (Game.Hero.RotaryCount > 100) {
+        throw "headache"
+    }
+}
+
+Game.HeroTurnLeft = function () {
+    Game.Hero.TurnLeft();
+    if (typeof Game.Hero.RotaryCount === 'undefined') {
+        Game.Hero.RotaryCount = 1;
+    }
+    else {
+        Game.Hero.RotaryCount++;
+    }
+    if (Game.Hero.RotaryCount > 100) {
+        throw "headache"
+    }
 }
 
 Game.GoodJob = function (enable) {
@@ -403,6 +430,9 @@ function onTurn() {
         }
         else if (ex == "treasure") {
             Game.SetScore(Game.Score + 1000);
+        }
+        else if (ex == "headache") {
+            console.log("your code make hero headache! skip turn!");
         }
     }
 
