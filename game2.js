@@ -441,6 +441,7 @@ function onTurn() {
         if (unit.type == TypeTreasure) treasure_cnt++;
     });
     if (treasure_cnt == 0) {
+        Game.SetScore(Game.Score + 6000);
         Game.GoodJob(true);
         Game.Stop();
     }
